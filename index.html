@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>特定技能 支援コスト診断｜株式会社エクアクリード</title>
+  <style>
+    :root {
+      --green: #2FB679;
+      --green-2: #45C98C;
+      --lime: #D3EE62;
+      --mint: #69EDB6;
+      --wash: #EAF8F1;
+      --bg: #F4F6F5;
+      --ink: #22292A;
+      --muted: #5E6866;
+      --line: #D5E4DC;
+      --card: #ffffff;
+      --warn: #8A6D12;
+      --warn-bg: #FBF6E4;
+      --stay: #3D5A66;
+      --stay-bg: #E8EEF0;
+      --shadow: 0 8px 28px rgba(34, 41, 42, 0.08);
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", YuGothic, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    a { color: var(--green); }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px 80px; }
+    header.hero {
+      background: linear-gradient(160deg, #1f8f5d 0%, var(--green) 45%, var(--green-2) 100%);
+      color: #fff;
+      padding: 36px 0 44px;
+    }
+    header.hero .wrap { padding-bottom: 0; }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      font-size: 13px;
+    }
+    .brand-mark {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--lime);
+      color: var(--ink);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 14px;
+    }
+    h1 {
+      font-size: 28px;
+      line-height: 1.35;
+      margin: 18px 0 12px;
+      letter-spacing: 0.02em;
+    }
+    .lede { margin: 0; max-width: 38em; color: rgba(255,255,255,0.95); }
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .pill {
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 12px;
+    }
+    .note, .disclaimer {
+      background: var(--wash);
+      border-left: 4px solid var(--green);
+      padding: 12px 14px;
+      margin: 20px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px 22px 8px;
+      margin: 20px 0;
+    }
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .card h2 .num {
+      background: var(--green);
+      color: #fff;
+      border-radius: 999px;
+      font-size: 12px;
+      padding: 2px 9px;
+      font-weight: 700;
+    }
+    .card .sec-lead { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+    label.field, fieldset.field {
+      display: block;
+      border: 0;
+      padding: 0;
+      margin: 0 0 16px;
+    }
+    label.field > span, fieldset.field > legend {
+      display: block;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 6px;
+      padding: 0;
+    }
+    .req { color: #c04545; font-weight: 700; margin-left: 4px; }
+    .hint { display: block; font-weight: 400; color: var(--muted); font-size: 12px; margin-top: 4px; }
+    input[type="number"], input[type="text"], input[type="email"], select {
+      width: 100%;
+      font-size: 16px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      font-family: inherit;
+    }
+    input:focus, select:focus { outline: 2px solid var(--mint); border-color: var(--green); }
+    .unit-row { display: flex; align-items: center; gap: 8px; }
+    .unit-row input { flex: 1; }
+    .unit { color: var(--muted); white-space: nowrap; font-size: 14px; }
+    .choices { display: grid; gap: 8px; }
+    .choices label {
+      display: flex; gap: 10px; align-items: flex-start;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: #fff;
+      cursor: pointer;
+    }
+    .choices label:has(input:checked) {
+      border-color: var(--green);
+      background: var(--wash);
+    }
+    .choices input { margin-top: 3px; }
+    details.adv {
+      margin: 8px 0 18px;
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      padding: 8px 12px 4px;
+      background: #fbfdfc;
+    }
+    details.adv summary { cursor: pointer; font-weight: 700; color: var(--green); padding: 6px 0; }
+    .actions {
+      position: sticky; bottom: 0;
+      background: linear-gradient(180deg, transparent, var(--bg) 24%);
+      padding: 18px 0 16px;
+      margin-top: 8px;
+    }
+    button, .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+    .btn-primary, button.btn-primary {
+      width: 100%;
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(47,182,121,0.35);
+    }
+    .btn-primary:hover { background: #279a66; }
+    .btn-ghost {
+      background: #fff;
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+    .btn-line { background: #06C755; color: #fff; }
+    .btn-ig { background: #22292A; color: #fff; }
+    .err { color: #a12626; font-size: 13px; margin: 0 0 10px; display: none; }
+    #results { display: none; margin-top: 28px; }
+    #results.show { display: block; }
+    .verdict {
+      border-radius: var(--radius);
+      padding: 22px;
+      margin: 0 0 20px;
+      border: 1px solid var(--line);
+    }
+    .verdict.consider { background: var(--wash); border-color: var(--green-2); }
+    .verdict.review { background: var(--warn-bg); border-color: #e6d48a; }
+    .verdict.stay { background: var(--stay-bg); border-color: #c5d3d8; }
+    .verdict .kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; margin: 0 0 4px; }
+    .verdict.consider .kicker { color: var(--green); }
+    .verdict.review .kicker { color: var(--warn); }
+    .verdict.stay .kicker { color: var(--stay); }
+    .verdict h2 { font-size: 24px; margin: 0 0 10px; }
+    .metrics { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 640px) {
+      .metrics { grid-template-columns: 1fr 1fr 1fr; }
+      h1 { font-size: 32px; }
+    }
+    .metric {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .metric .lbl { font-size: 12px; color: var(--muted); font-weight: 700; }
+    .metric .val { font-size: 22px; font-weight: 800; margin: 4px 0; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .metric .sub { font-size: 12px; color: var(--muted); margin: 0; }
+    .metric.accent { background: var(--wash); border-color: var(--mint); }
+    table.cmp {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    table.cmp th, table.cmp td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.cmp th { color: var(--muted); font-weight: 700; font-size: 12px; }
+    table.cmp td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    table.cmp .total td { font-weight: 800; border-bottom: 0; }
+    .checks { list-style: none; padding: 0; margin: 0; }
+    .checks li {
+      display: grid;
+      grid-template-columns: 2.2em 1fr;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .checks li:last-child { border-bottom: 0; }
+    .stamp { font-weight: 800; font-size: 12px; padding-top: 2px; }
+    .stamp.pass { color: var(--green); }
+    .stamp.fail { color: #a12626; }
+    .stamp.unknown { color: var(--warn); }
+    .cta-box {
+      background: var(--card);
+      border: 2px solid var(--green);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin: 20px 0;
+    }
+    .cta-box h2 { margin-top: 0; }
+    .btn-row { display: grid; gap: 10px; margin-top: 14px; }
+    @media (min-width: 560px) {
+      .btn-row { grid-template-columns: 1fr 1fr; }
+      .btn-row .span2 { grid-column: 1 / -1; }
+    }
+    footer {
+      margin-top: 36px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    footer .company { font-weight: 700; color: var(--ink); }
+    .src { font-size: 12px; color: var(--muted); }
+    .src a { color: var(--muted); }
+    ul.plain { padding-left: 1.2em; margin: 8px 0 0; }
+    .hp {
+      position: absolute !important;
+      left: -10000px;
+      top: auto;
+      width: 1px; height: 1px;
+      overflow: hidden;
+    }
+    .consent {
+      display: flex; gap: 10px; align-items: flex-start;
+      font-size: 14px; margin: 12px 0;
+    }
+    .consent input { margin-top: 4px; }
+    #collect-status { font-size: 14px; margin: 8px 0 0; }
+    #collect-status.ok { color: var(--green); font-weight: 700; }
+    #collect-status.err { color: #a12626; }
+    body.screenshot-mode .actions { position: static; background: none; padding-top: 8px; }
+    body.screenshot-send header.hero,
+    body.screenshot-send .intro-note,
+    body.screenshot-send form#diag-form,
+    body.screenshot-send .actions,
+    body.screenshot-send #results > :not(#collect-box) {
+      display: none !important;
+    }
+    body.screenshot-send .wrap { padding-top: 24px; padding-bottom: 24px; }
+    body.screenshot-results form#diag-form,
+    body.screenshot-results .actions { display: none !important; }
+    @media print {
+      header.hero, .actions, form#diag-form, .no-print { display: none !important; }
+      #results { display: block !important; }
+      body { background: #fff; }
+      .card, .verdict, .cta-box { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="brand"><span class="brand-mark">E</span>株式会社エクアクリード</div>
+      <h1>特定技能の支援コスト診断</h1>
+      <p class="lede">いま登録支援機関に支払っている委託費と、自社支援に切り替えた場合の費用の目安、切替前に確認したい要件を、この画面で計算します。比較は、ご入力の金額だけで行います。</p>
+      <div class="pills">
+        <span class="pill">診断はブラウザ内で計算</span>
+        <span class="pill">結果を送るときは同意が必要</span>
+        <span class="pill">結果は概算です</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="note intro-note">このページは試作です。費用の比較は、ご入力の委託費と、自社支援の時間・人件費の目安（当社の仮定。数値は変更可）だけで行います。要件の最終判断は個別の確認が必要です。診断の計算はブラウザ内だけで行い、結果を送る場合のみ、同意のうえ送信します。<a href="privacy.html">個人情報の扱い（下書き）</a>をご覧ください。この下書きは、株式会社エクアクリード名義ですが、最終確認前の文面です。</p>
+
+    <form id="diag-form" novalidate>
+      <section class="card">
+        <h2><span class="num">1</span>いまの受入れと委託費</h2>
+        <p class="sec-lead">特定技能1号の支援を対象にした診断です（支援計画の実施が求められるのは1号です）。</p>
+        <label class="field">
+          <span>特定技能1号の人数<span class="req">必須</span></span>
+          <div class="unit-row"><input type="number" name="people" min="1" step="1" required value="5"><span class="unit">人</span></div>
+        </label>
+        <label class="field">
+          <span>事業所の数<span class="req">必須</span></span>
+          <div class="unit-row"><input type="number" name="sites" min="1" step="1" required value="1"><span class="unit">か所</span></div>
+          <span class="hint">支援担当者は、外国人が働く事業所ごとに1名以上の選任が求められます。</span>
+        </label>
+        <label class="field">
+          <span>分野</span>
+          <select name="field">
+            <option value="">わからない・複数・未選択</option>
+            <option>介護分野</option>
+            <option>ビルクリーニング分野</option>
+            <option>リネンサプライ分野</option>
+            <option>工業製品製造業分野</option>
+            <option>建設分野</option>
+            <option>造船・舶用工業分野</option>
+            <option>自動車整備分野</option>
+            <option>航空分野</option>
+            <option>宿泊分野</option>
+            <option>自動車運送業分野</option>
+            <option>鉄道分野</option>
+            <option>物流倉庫分野</option>
+            <option>農業分野</option>
+            <option>漁業分野</option>
+            <option>飲食料品製造業分野</option>
+            <option>外食業分野</option>
+            <option>林業分野</option>
+            <option>木材産業分野</option>
+            <option>資源循環分野</option>
+          </select>
+          <span class="hint">分野の一覧は、出入国在留管理庁「特定技能外国人受入れに関する運用要領」（令和8年10月）によります。</span>
+        </label>
+        <label class="field">
+          <span>1人あたりの月額支援委託費（管理費）<span class="req">必須</span></span>
+          <div class="unit-row"><input type="number" name="monthlyFee" min="0" step="1" required value="25000"><span class="unit">円</span></div>
+          <span class="hint">税込・税抜が混在しうるため、契約書や請求書の税込み額で入れると年額の比較がしやすいです。</span>
+        </label>
+        <fieldset class="field">
+          <legend>初期費用は直近1年に支払いましたか</legend>
+          <div class="choices">
+            <label><input type="radio" name="initialMode" value="year" checked> はい。直近1年のコストに含めます</label>
+            <label><input type="radio" name="initialMode" value="once"> 契約時に払ったが、毎年は発生しない（参考表示のみ）</label>
+            <label><input type="radio" name="initialMode" value="none"> ない・わからない</label>
+          </div>
+        </fieldset>
+        <label class="field">
+          <span>初期費用の金額</span>
+          <div class="unit-row"><input type="number" name="initialFee" min="0" step="1" value="0"><span class="unit">円</span></div>
+        </label>
+        <fieldset class="field">
+          <legend>いまの支援の委託範囲</legend>
+          <div class="choices">
+            <label><input type="radio" name="scope" value="all" checked> 登録支援機関に全部委託している</label>
+            <label><input type="radio" name="scope" value="partial"> 一部だけ委託している</label>
+            <label><input type="radio" name="scope" value="self"> すでに自社で支援している</label>
+            <label><input type="radio" name="scope" value="unknown"> わからない</label>
+          </div>
+        </fieldset>
+      </section>
+
+      <section class="card">
+        <h2><span class="num">2</span>いま、誰が支援していますか</h2>
+        <p class="sec-lead">お金を払う相手と、現場で動いている人を分けて把握するための質問です。診断の要件判定そのものには、次の「体制」の回答を主に使います。</p>
+        <fieldset class="field">
+          <legend>通訳・外国人が十分に理解できる言語での説明</legend>
+          <div class="choices">
+            <label><input type="radio" name="whoLang" value="rso" checked> 登録支援機関</label>
+            <label><input type="radio" name="whoLang" value="inhouse"> 自社の職員</label>
+            <label><input type="radio" name="whoLang" value="other"> その他（外部の通訳など）</label>
+            <label><input type="radio" name="whoLang" value="unknown"> わからない</label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>病院や役所への同行</legend>
+          <div class="choices">
+            <label><input type="radio" name="whoEscort" value="rso" checked> 登録支援機関</label>
+            <label><input type="radio" name="whoEscort" value="inhouse"> 自社の職員</label>
+            <label><input type="radio" name="whoEscort" value="other"> その他</label>
+            <label><input type="radio" name="whoEscort" value="unknown"> わからない</label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>定期面談（3か月に1回以上）</legend>
+          <div class="choices">
+            <label><input type="radio" name="whoMeeting" value="rso" checked> 登録支援機関</label>
+            <label><input type="radio" name="whoMeeting" value="inhouse"> 自社の職員</label>
+            <label><input type="radio" name="whoMeeting" value="other"> その他</label>
+            <label><input type="radio" name="whoMeeting" value="unknown"> わからない</label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>生活オリエンテーション</legend>
+          <div class="choices">
+            <label><input type="radio" name="whoOrient" value="rso" checked> 登録支援機関</label>
+            <label><input type="radio" name="whoOrient" value="inhouse"> 自社の職員</label>
+            <label><input type="radio" name="whoOrient" value="other"> その他</label>
+            <label><input type="radio" name="whoOrient" value="unknown"> わからない</label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>住居の確保や生活に必要な契約の支援</legend>
+          <div class="choices">
+            <label><input type="radio" name="whoHousing" value="rso" checked> 登録支援機関</label>
+            <label><input type="radio" name="whoHousing" value="inhouse"> 自社の職員</label>
+            <label><input type="radio" name="whoHousing" value="other"> その他</label>
+            <label><input type="radio" name="whoHousing" value="unknown"> わからない</label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>相談・苦情への対応</legend>
+          <div class="choices">
+            <label><input type="radio" name="whoConsult" value="rso" checked> 登録支援機関</label>
+            <label><input type="radio" name="whoConsult" value="inhouse"> 自社の職員</label>
+            <label><input type="radio" name="whoConsult" value="other"> その他</label>
+            <label><input type="radio" name="whoConsult" value="unknown"> わからない</label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>定期届出（年1回）や随時の届出</legend>
+          <div class="choices">
+            <label><input type="radio" name="whoReport" value="rso" checked> 登録支援機関が中心</label>
+            <label><input type="radio" name="whoReport" value="inhouse"> 自社が中心</label>
+            <label><input type="radio" name="whoReport" value="other"> その他</label>
+            <label><input type="radio" name="whoReport" value="unknown"> わからない</label>
+          </div>
+          <span class="hint">定期届出の提出義務は特定技能所属機関にあります。支援を全部委託している場合も、所属機関が支援実施状況を取りまとめて提出します（令和7年4月以降は年1回）。</span>
+        </fieldset>
+      </section>
+
+      <section class="card">
+        <h2><span class="num">3</span>自社で支援する場合の体制</h2>
+        <p class="sec-lead">受入れ機関が支援計画を自ら実施する場合の基準（特定技能基準省令第2条第2項）を、公開資料の範囲で確認するための質問です。この診断だけでは許可の可否は決まりません。</p>
+        <fieldset class="field">
+          <legend>過去2年間に、就労できる在留資格の中長期在留者を、適正に受け入れまたは管理した実績がありますか</legend>
+          <div class="choices">
+            <label><input type="radio" name="expAccept" value="yes"> ある</label>
+            <label><input type="radio" name="expAccept" value="no"> ない</label>
+            <label><input type="radio" name="expAccept" value="unknown" checked> わからない</label>
+          </div>
+          <span class="hint">対象は、入管法別表第1の1の表・2の表・5の表のうち、収入を伴う事業の運営または報酬を受ける活動ができる在留資格です（例：特定技能、技能実習、技術・人文知識・国際業務など）。観光目的の短期滞在は含みません。</span>
+        </fieldset>
+        <fieldset class="field">
+          <legend>過去2年間に、役員または職員が、中長期在留者の生活相談業務に従事した経験がありますか</legend>
+          <div class="choices">
+            <label><input type="radio" name="expConsult" value="yes"> ある</label>
+            <label><input type="radio" name="expConsult" value="no"> ない</label>
+            <label><input type="radio" name="expConsult" value="unknown" checked> わからない</label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>役員または職員の中から、支援責任者を選任できますか</legend>
+          <div class="choices">
+            <label><input type="radio" name="canLead" value="yes"> できる</label>
+            <label><input type="radio" name="canLead" value="no"> できない</label>
+            <label><input type="radio" name="canLead" value="unknown" checked> わからない</label>
+          </div>
+          <span class="hint">支援責任者は支援担当者を兼ねられます。令和9年4月1日以降は、事業所ごとに常勤の役員または職員から選任する改正が施行されます（経過措置あり）。</span>
+        </fieldset>
+        <fieldset class="field">
+          <legend>外国人が働く事業所ごとに、その外国人を指揮命令しない立場の人を、支援担当者として1名以上置けますか</legend>
+          <div class="choices">
+            <label><input type="radio" name="canStaff" value="yes"> できる</label>
+            <label><input type="radio" name="canStaff" value="no"> できない</label>
+            <label><input type="radio" name="canStaff" value="unknown" checked> わからない</label>
+          </div>
+          <span class="hint">直属の上司など、指揮命令権を持つ人は支援担当者になれません（中立な実施）。</span>
+        </fieldset>
+        <fieldset class="field">
+          <legend>外国人が十分に理解できる言語で、情報提供や相談、事前ガイダンス、生活オリエンテーション、定期面談ができますか</legend>
+          <div class="choices">
+            <label><input type="radio" name="langSys" value="inhouse"> 社内の職員でできる</label>
+            <label><input type="radio" name="langSys" value="interpreter"> 必要なときに通訳を確保できる</label>
+            <label><input type="radio" name="langSys" value="no"> いまはできない</label>
+            <label><input type="radio" name="langSys" value="unknown" checked> わからない</label>
+          </div>
+          <span class="hint">母国語である必要はありません。運用要領では、通訳を職員として雇うことまでは求めず、必要なときに委託して確保できれば足りるとされています。</span>
+        </fieldset>
+        <fieldset class="field">
+          <legend>支援責任者または支援担当者が、外国人本人とその上司の双方と、3か月に1回以上の定期面談を実施できますか</legend>
+          <div class="choices">
+            <label><input type="radio" name="canMeeting" value="yes"> できる（すでに自社で実施している場合を含む）</label>
+            <label><input type="radio" name="canMeeting" value="no"> できない</label>
+            <label><input type="radio" name="canMeeting" value="unknown" checked> わからない</label>
+          </div>
+          <span class="hint">令和7年4月以降、一定の条件（同意、録画の保管、年1回以上の対面など）を満たせばオンライン面談も認められています。初回は対面が求められます。</span>
+        </fieldset>
+      </section>
+
+      <section class="card">
+        <h2><span class="num">4</span>自社で行った場合の時間と人件費（目安）</h2>
+        <p class="sec-lead">以下の時間は法令で決まった値ではなく、試作のための仮定（推測・目安）です。御社の実情に合わせて変更してください。</p>
+        <label class="field">
+          <span>担当者の時給（計算用）<span class="req">必須</span></span>
+          <div class="unit-row"><input type="number" name="hourlyWage" min="1" step="1" required value="2000"><span class="unit">円</span></div>
+          <span class="hint">仮の計算用です。相場ではありません。給与や法定福利を踏まえた御社の負担に合わせて変更してください。</span>
+        </label>
+        <label class="field">
+          <span>今後1年で新たに受け入れる見込み人数</span>
+          <div class="unit-row"><input type="number" name="newHires" min="0" step="1" value="0"><span class="unit">人</span></div>
+          <span class="hint">事前ガイダンス、生活オリエンテーション、住居確保、出入国の送迎など、初年度に増えやすい作業を足すための欄です。</span>
+        </label>
+        <label class="field">
+          <span>通訳・翻訳など、人件費以外に見込む年間費用</span>
+          <div class="unit-row"><input type="number" name="otherCost" min="0" step="1" value="0"><span class="unit">円</span></div>
+          <span class="hint">社内で言語対応できず、外部通訳を使う場合などに入力します。空欄なら0円です。</span>
+        </label>
+        <details class="adv">
+          <summary>時間の内訳を見る・変更する（目安）</summary>
+          <label class="field">
+            <span>1人あたりの年間時間（定期的な支援）</span>
+            <div class="unit-row"><input type="number" name="hoursPerPerson" min="0" step="0.5" value="32"><span class="unit">時間</span></div>
+            <span class="hint">初期値32時間の内訳（推測）：定期面談12／相談・苦情8／病院・役所等への同行6／住居・日本語学習機会・交流促進などその他6。</span>
+          </label>
+          <label class="field">
+            <span>会社全体の年間時間（届出・記録など）</span>
+            <div class="unit-row"><input type="number" name="hoursFixed" min="0" step="0.5" value="24"><span class="unit">時間</span></div>
+            <span class="hint">初期値24時間の内訳（推測）：定期届出の準備・取りまとめ12／記録の整備・共生施策の確認・支援計画の見直し12。</span>
+          </label>
+          <label class="field">
+            <span>新規1人あたりの初年度の追加時間</span>
+            <div class="unit-row"><input type="number" name="hoursNewPerson" min="0" step="0.5" value="20"><span class="unit">時間</span></div>
+            <span class="hint">初期値20時間（推測）。事前ガイダンス、生活オリエンテーション、住居確保、出入国の送迎などをまとめた目安です。</span>
+          </label>
+        </details>
+      </section>
+
+      <p class="err" id="form-error" role="alert">入力内容を確認してください。人数・事業所・月額委託費・時給は0より大きい値が必要です（月額委託費は0円も可）。</p>
+      <div class="actions">
+        <button type="submit" class="btn-primary">無料で診断する</button>
+      </div>
+    </form>
+
+    <section id="results" aria-live="polite"></section>
+    <footer>
+      <p class="company">株式会社エクアクリード</p>
+      <p><a href="privacy.html">個人情報の扱い（下書き）</a> ／ <a href="https://lin.ee/vRRtEW9" rel="noopener noreferrer">公式LINE</a> ／ <a href="https://www.instagram.com/equa_creed/" rel="noopener noreferrer">Instagram</a></p>
+    </footer>
+  </main>
+
+  <script>
+  /* === DIAGNOSIS_CORE_START === */
+  var BOOKING_URL = "https://calendar.google.com/appointments/schedules/AcZssZ149mwnPuYoTvcSm0ElB1hPXJ0OCavC5LjCwldmn9G_XsJGDKeOMsFFhB8siRCN4ces_oqRJdcH";
+  var LINE_URL = "https://lin.ee/vRRtEW9";
+  var INSTAGRAM_URL = "https://www.instagram.com/equa_creed/";
+  var COLLECT_URL = ""; // Google Apps Script Webアプリの /exec URL。空のときは送信欄を出さない
+  var PRIVACY_URL = "privacy.html";
+  var PAGE_VERSION = "v2";
+
+  function reqStatus(pass, fail) {
+    if (pass) return "pass";
+    if (fail) return "fail";
+    return "unknown";
+  }
+
+  function buildRequirements(input) {
+    var expPass = input.expAccept === "yes" || input.expConsult === "yes";
+    var expFail = false;
+    var items = [
+      {
+        id: "exp",
+        status: reqStatus(expPass, expFail),
+        title: "過去2年間の受入れ・管理実績、または生活相談の経験",
+        note: expPass
+          ? "ご回答では、省令にいうイまたはロの実績・経験がありそうです。"
+          : "どちらもない、またはわからない場合でも、「同程度に実施できる」として個別に認められる道（ハ）があります。この診断では判断できません。"
+      },
+      {
+        id: "lead",
+        status: reqStatus(input.canLead === "yes", input.canLead === "no"),
+        title: "役員または職員からの支援責任者の選任",
+        note: input.canLead === "yes" ? "選任できそう、とのご回答です。" : "自社支援では支援責任者の選任が必要です。"
+      },
+      {
+        id: "staff",
+        status: reqStatus(input.canStaff === "yes", input.canStaff === "no"),
+        title: "事業所ごとに、指揮命令しない支援担当者を1名以上",
+        note: input.canStaff === "yes"
+          ? "事業所ごとに、中立な立場の担当者を置けそう、とのご回答です。"
+          : "直属の上司など指揮命令権のある人は、支援担当者になれません。"
+      },
+      {
+        id: "lang",
+        status: reqStatus(input.langSys === "inhouse" || input.langSys === "interpreter", input.langSys === "no"),
+        title: "十分に理解できる言語で支援できる体制",
+        note: input.langSys === "inhouse"
+          ? "社内で対応できる、とのご回答です。"
+          : input.langSys === "interpreter"
+            ? "必要なときに通訳を確保できる、とのご回答です。運用要領では、職員として雇うことまでは求められていません。"
+            : "事前ガイダンス、生活オリエンテーション、相談、定期面談などは、理解できる言語での実施が求められます。"
+      },
+      {
+        id: "meeting",
+        status: reqStatus(input.canMeeting === "yes", input.canMeeting === "no"),
+        title: "本人と上司の双方との定期面談（3か月に1回以上）",
+        note: input.canMeeting === "yes" ? "実施できそう、とのご回答です。" : "自社支援では、支援責任者または支援担当者が定期面談を行う体制が必要です。"
+      }
+    ];
+    return items;
+  }
+
+  function diagnose(input) {
+    var people = Number(input.people) || 0;
+    var sites = Number(input.sites) || 0;
+    var monthlyFee = Number(input.monthlyFee) || 0;
+    var initialFee = Number(input.initialFee) || 0;
+    var hourlyWage = Number(input.hourlyWage) || 0;
+    var hoursPerPerson = Number(input.hoursPerPerson);
+    var hoursFixed = Number(input.hoursFixed);
+    var hoursNewPerson = Number(input.hoursNewPerson);
+    var newHires = Number(input.newHires) || 0;
+    var otherCost = Number(input.otherCost) || 0;
+    if (!isFinite(hoursPerPerson)) hoursPerPerson = 32;
+    if (!isFinite(hoursFixed)) hoursFixed = 24;
+    if (!isFinite(hoursNewPerson)) hoursNewPerson = 20;
+
+    var monthlyTotal = people * monthlyFee;
+    var annualFee = monthlyTotal * 12;
+    var initialInAnnual = input.initialMode === "year" ? initialFee : 0;
+    var currentAnnual = annualFee + initialInAnnual;
+
+    var hoursRecurring = hoursFixed + people * hoursPerPerson;
+    var hoursNew = newHires * hoursNewPerson;
+    var annualHours = hoursRecurring + hoursNew;
+    var laborCost = annualHours * hourlyWage;
+    var selfTotal = laborCost + otherCost;
+    var savings = currentAnnual - selfTotal;
+    var weeklyHours = annualHours / 52;
+
+    var requirements = buildRequirements(input);
+    var failCount = requirements.filter(function (r) { return r.status === "fail"; }).length;
+    var unknownCount = requirements.filter(function (r) { return r.status === "unknown"; }).length;
+
+    var verdict = "review";
+    var verdictLabel = "要件の確認が必要";
+    var reasons = [];
+
+    if (failCount > 0) {
+      verdict = "stay";
+      verdictLabel = "今は委託継続が安心";
+      reasons.push("いまの回答では、自社で支援計画を実施するための体制がまだ足りない項目があります。");
+    } else if (unknownCount > 0) {
+      verdict = "review";
+      verdictLabel = "要件の確認が必要";
+      reasons.push("実績・選任・言語・面談のいずれかが「わからない」または、実績の個別判断（ハ）の確認が残っています。");
+    } else if (selfTotal < currentAnnual && annualHours <= 1600) {
+      verdict = "consider";
+      verdictLabel = "自社支援を検討できそう";
+      reasons.push("ご回答の範囲では、自社支援の要件を満たせる見込みがあり、費用の目安もいまの委託費を下回っています。");
+    } else {
+      verdict = "stay";
+      verdictLabel = "今は委託継続が安心";
+      if (selfTotal >= currentAnnual) {
+        reasons.push("要件は整いそうですが、今回の目安では自社支援の費用がいまの委託費を下回りません。");
+      }
+      if (annualHours > 1600) {
+        reasons.push("年間の支援時間がおおよそ1人分の勤務に近づく目安です。担当の空き時間と合わせて確認してください。");
+      }
+    }
+
+    if (input.scope === "self") {
+      reasons.push("すでに自社支援とのご回答です。切替の試算というより、いまの社内負担の目安としてご覧ください。");
+    }
+    var inhouseCount = ["whoLang","whoEscort","whoMeeting","whoOrient","whoHousing","whoConsult"].filter(function (k) {
+      return input[k] === "inhouse";
+    }).length;
+    if (inhouseCount >= 3 && input.scope === "all") {
+      reasons.push("支援の一部をすでに社内で行っているようなので、委託費と社内の時間の両方がかかっている可能性があります。");
+    }
+    if (sites >= 2) {
+      reasons.push("事業所が複数あるため、事業所ごとの支援担当者の配置を個別に確認してください。");
+    }
+    if (people > 50) {
+      reasons.push("令和9年4月1日以降は、支援担当者の数が1号特定技能外国人の数を50で割った数を超えていることが求められます（支援責任者の兼務は可）。人数が多い場合は、施行前に体制を見直す必要があります。");
+    }
+
+    reasons.push("この結果は概算であり、要件の最終判断は個別確認が必要です。");
+
+    return {
+      people: people,
+      sites: sites,
+      monthlyFee: monthlyFee,
+      monthlyTotal: monthlyTotal,
+      annualFee: annualFee,
+      initialFee: initialFee,
+      initialMode: input.initialMode,
+      initialInAnnual: initialInAnnual,
+      currentAnnual: currentAnnual,
+      hoursPerPerson: hoursPerPerson,
+      hoursFixed: hoursFixed,
+      hoursNewPerson: hoursNewPerson,
+      newHires: newHires,
+      hoursRecurring: hoursRecurring,
+      hoursNew: hoursNew,
+      annualHours: annualHours,
+      weeklyHours: weeklyHours,
+      hourlyWage: hourlyWage,
+      laborCost: laborCost,
+      otherCost: otherCost,
+      selfTotal: selfTotal,
+      savings: savings,
+      requirements: requirements,
+      failCount: failCount,
+      unknownCount: unknownCount,
+      verdict: verdict,
+      verdictLabel: verdictLabel,
+      reasons: reasons,
+      field: input.field || "",
+      scope: input.scope
+    };
+  }
+
+  function bookingUrl() {
+    return BOOKING_URL && String(BOOKING_URL).trim() ? String(BOOKING_URL).trim() : LINE_URL;
+  }
+
+  function collectUrl() {
+    var u = COLLECT_URL && String(COLLECT_URL).trim();
+    return u || "";
+  }
+
+  function isLikelyEmail(s) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || "").trim());
+  }
+
+  function validateCollect(formInput) {
+    var errors = [];
+    if (!String(formInput.companyName || "").trim()) errors.push("会社名を入力してください。");
+    if (!String(formInput.contactName || "").trim()) errors.push("担当者名を入力してください。");
+    if (!isLikelyEmail(formInput.email)) errors.push("返信用のメールアドレスを入力してください。");
+    if (!formInput.consent) errors.push("個人情報の扱いを確認し、送信への同意が必要です。");
+    return errors;
+  }
+
+  function isHoneypotFilled(formInput) {
+    return String(formInput.website || "").trim() !== "";
+  }
+
+  function tooFast(startedAt, now, minMs) {
+    var start = Number(startedAt);
+    var n = Number(now);
+    var min = minMs == null ? 4000 : minMs;
+    if (!isFinite(start) || !isFinite(n)) return false;
+    return n - start < min;
+  }
+
+  function buildCollectPayload(formInput, diagInput, result, now) {
+    return {
+      version: PAGE_VERSION,
+      startedAt: formInput.startedAt || "",
+      submittedAt: now || Date.now(),
+      companyName: String(formInput.companyName || "").trim(),
+      contactName: String(formInput.contactName || "").trim(),
+      email: String(formInput.email || "").trim(),
+      message: String(formInput.message || "").trim(),
+      consent: !!formInput.consent,
+      website: String(formInput.website || ""),
+      input: {
+        people: diagInput.people,
+        sites: diagInput.sites,
+        field: diagInput.field || "",
+        monthlyFee: diagInput.monthlyFee,
+        initialMode: diagInput.initialMode,
+        initialFee: diagInput.initialFee,
+        scope: diagInput.scope,
+        whoLang: diagInput.whoLang,
+        whoEscort: diagInput.whoEscort,
+        whoMeeting: diagInput.whoMeeting,
+        whoOrient: diagInput.whoOrient,
+        whoHousing: diagInput.whoHousing,
+        whoConsult: diagInput.whoConsult,
+        whoReport: diagInput.whoReport,
+        expAccept: diagInput.expAccept,
+        expConsult: diagInput.expConsult,
+        canLead: diagInput.canLead,
+        canStaff: diagInput.canStaff,
+        langSys: diagInput.langSys,
+        canMeeting: diagInput.canMeeting,
+        hourlyWage: diagInput.hourlyWage,
+        newHires: diagInput.newHires,
+        otherCost: diagInput.otherCost,
+        hoursPerPerson: diagInput.hoursPerPerson,
+        hoursFixed: diagInput.hoursFixed,
+        hoursNewPerson: diagInput.hoursNewPerson
+      },
+      result: {
+        verdict: result.verdict,
+        verdictLabel: result.verdictLabel,
+        currentAnnual: result.currentAnnual,
+        selfTotal: result.selfTotal,
+        savings: result.savings,
+        annualHours: result.annualHours,
+        weeklyHours: result.weeklyHours
+      }
+    };
+  }
+  /* === DIAGNOSIS_CORE_END === */
+
+  function yen(n) {
+    var x = Math.round(Number(n) || 0);
+    return x.toLocaleString("ja-JP") + "円";
+  }
+  function hours(n) {
+    var x = Math.round((Number(n) || 0) * 10) / 10;
+    return x.toLocaleString("ja-JP") + "時間";
+  }
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function stampLabel(st) {
+    if (st === "pass") return "見込みあり";
+    if (st === "fail") return "不足";
+    return "要確認";
+  }
+
+  function readForm(form) {
+    var fd = new FormData(form);
+    var get = function (name) { return fd.get(name); };
+    return {
+      people: get("people"),
+      sites: get("sites"),
+      field: get("field"),
+      monthlyFee: get("monthlyFee"),
+      initialMode: get("initialMode") || "none",
+      initialFee: get("initialFee") || 0,
+      scope: get("scope") || "all",
+      whoLang: get("whoLang"),
+      whoEscort: get("whoEscort"),
+      whoMeeting: get("whoMeeting"),
+      whoOrient: get("whoOrient"),
+      whoHousing: get("whoHousing"),
+      whoConsult: get("whoConsult"),
+      whoReport: get("whoReport"),
+      expAccept: get("expAccept"),
+      expConsult: get("expConsult"),
+      canLead: get("canLead"),
+      canStaff: get("canStaff"),
+      langSys: get("langSys"),
+      canMeeting: get("canMeeting"),
+      hourlyWage: get("hourlyWage"),
+      newHires: get("newHires") || 0,
+      otherCost: get("otherCost") || 0,
+      hoursPerPerson: get("hoursPerPerson"),
+      hoursFixed: get("hoursFixed"),
+      hoursNewPerson: get("hoursNewPerson")
+    };
+  }
+
+  function validate(input) {
+    if (!(Number(input.people) >= 1)) return false;
+    if (!(Number(input.sites) >= 1)) return false;
+    if (!(Number(input.monthlyFee) >= 0)) return false;
+    if (!(Number(input.hourlyWage) >= 1)) return false;
+    if (!(Number(input.initialFee) >= 0)) return false;
+    return true;
+  }
+
+  var lastDiagInput = null;
+  var lastResult = null;
+  var diagnoseStartedAt = Date.now();
+
+  function renderCollectBox() {
+    var show = !!collectUrl() || document.body.classList.contains("screenshot-mode");
+    if (!show) return "";
+    var canSend = !!collectUrl();
+    var btn = canSend
+      ? "<button type='submit' class='btn-primary' id='collect-submit'>診断結果を送って相談する</button>"
+      : "<p class='src'>送信先の準備中のため、この試作では送信ボタンは出していません。設置後に表示されます。</p>";
+    /* 撮影時は欄の見た目を出す（実際の送信は COLLECT_URL があるときだけ） */
+    if (!canSend && document.body.classList.contains("screenshot-mode")) {
+      btn = "<button type='button' class='btn-primary' id='collect-submit' disabled>診断結果を送って相談する</button>" +
+        "<p class='src'>撮影用の表示です。送信先未設定のため、この画面からは送れません。</p>";
+    }
+    return (
+      "<section class='cta-box no-print' id='collect-box'>" +
+        "<h2>診断結果を送って相談する</h2>" +
+        "<p>計算はブラウザ内で終わっています。結果と連絡先を株式会社エクアクリードに送る場合だけ、下の欄に入力してください。送信は自動では行いません。</p>" +
+        "<form id='collect-form' novalidate>" +
+          "<input type='hidden' name='startedAt' value='" + esc(String(diagnoseStartedAt)) + "'>" +
+          "<div class='hp'><label>ホームページ（空のままにしてください）<input type='text' name='website' tabindex='-1' autocomplete='off'></label></div>" +
+          "<label class='field'><span>会社名<span class='req'>必須</span></span><input type='text' name='companyName' autocomplete='organization' required></label>" +
+          "<label class='field'><span>担当者名<span class='req'>必須</span></span><input type='text' name='contactName' autocomplete='name' required></label>" +
+          "<label class='field'><span>メールアドレス<span class='req'>必須</span></span><input type='email' name='email' autocomplete='email' required><span class='hint'>相談の返信に使います。予約や連絡は公式LINEでもできます。</span></label>" +
+          "<label class='field'><span>連絡事項（任意）</span><input type='text' name='message' maxlength='500' autocomplete='off'></label>" +
+          "<label class='consent'><input type='checkbox' name='consent' value='yes' required><span><a href='" + esc(PRIVACY_URL) + "' target='_blank' rel='noopener'>個人情報の扱い（下書き）</a>を読み、診断の入力・結果と連絡先を、相談対応のために株式会社エクアクリードへ送ることに同意します。この文面は最終確認前の下書きです。</span></label>" +
+          btn +
+          "<p id='collect-status' role='status'></p>" +
+        "</form>" +
+      "</section>"
+    );
+  }
+
+  function render(result) {
+    var vClass = result.verdict;
+    var initialRow = "";
+    if (result.initialFee > 0) {
+      initialRow = result.initialMode === "year"
+        ? "<tr><th>初期費用（直近1年に算入）</th><td class='num'>" + yen(result.initialFee) + "</td><td class='num'>—</td></tr>"
+        : "<tr><th>初期費用（参考・年額には未算入）</th><td class='num'>" + yen(result.initialFee) + "</td><td class='num'>—</td></tr>";
+    }
+    var reqHtml = result.requirements.map(function (r) {
+      return "<li><span class='stamp " + r.status + "'>" + stampLabel(r.status) + "</span><div><strong>" + esc(r.title) + "</strong><br>" + esc(r.note) + "</div></li>";
+    }).join("");
+    var reasonHtml = "<ul class='plain'>" + result.reasons.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>";
+    var book = bookingUrl();
+    var bookingIsLine = book === LINE_URL;
+    var bookingLabel = bookingIsLine ? "自社支援の話を聞いてみる（公式LINE）" : "自社支援の話を聞いてみる（予約）";
+
+    return (
+      "<article class='verdict " + vClass + "'>" +
+        "<p class='kicker'>診断結果（目安）</p>" +
+        "<h2>" + esc(result.verdictLabel) + "</h2>" +
+        reasonHtml +
+      "</article>" +
+      "<div class='metrics'>" +
+        "<div class='metric'><div class='lbl'>① いまの年間コスト</div><div class='val'>" + yen(result.currentAnnual) + "</div><p class='sub'>月額 " + yen(result.monthlyFee) + " × " + result.people + "人 × 12か月" + (result.initialInAnnual ? " ＋初期費用" : "") + "</p></div>" +
+        "<div class='metric'><div class='lbl'>② 自社支援の費用目安</div><div class='val'>" + yen(result.selfTotal) + "</div><p class='sub'>時間 " + hours(result.annualHours) + " × 時給 " + yen(result.hourlyWage) + (result.otherCost ? " ＋その他" : "") + "</p></div>" +
+        "<div class='metric accent'><div class='lbl'>差（目安）</div><div class='val'>" + yen(result.savings >= 0 ? result.savings : -result.savings) + "</div><p class='sub'>" + (result.savings >= 0 ? "いまの委託より少ない" : "いまの委託より多い") + "<br>週あたり約 " + hours(result.weeklyHours) + "</p></div>" +
+      "</div>" +
+      "<section class='card'><h2>③ 比較表</h2>" +
+        "<table class='cmp'><thead><tr><th>項目</th><th>いまの委託</th><th>自社支援の目安</th></tr></thead><tbody>" +
+        "<tr><th>1人あたり月額の委託費</th><td class='num'>" + yen(result.monthlyFee) + "</td><td class='num'>—</td></tr>" +
+        "<tr><th>年間の委託費（" + result.people + "人）</th><td class='num'>" + yen(result.annualFee) + "</td><td class='num'>—</td></tr>" +
+        initialRow +
+        "<tr><th>社内の人件費（目安）</th><td class='num'>—</td><td class='num'>" + yen(result.laborCost) + "</td></tr>" +
+        "<tr><th>通訳などその他（入力値）</th><td class='num'>—</td><td class='num'>" + yen(result.otherCost) + "</td></tr>" +
+        "<tr><th>社内時間の合計（目安）</th><td class='num'>—</td><td class='num'>" + hours(result.annualHours) + "</td></tr>" +
+        "<tr class='total'><th>年額の合計</th><td class='num'>" + yen(result.currentAnnual) + "</td><td class='num'>" + yen(result.selfTotal) + "</td></tr>" +
+        "</tbody></table>" +
+        "<p class='src'>自社支援の時間は当社の仮定（推測・目安）です。交通費などの実費は含めていません。</p>" +
+      "</section>" +
+      "<section class='card'><h2>④ 要件の確認（ご回答に基づく目安）</h2>" +
+        "<ul class='checks'>" + reqHtml + "</ul>" +
+        "<p class='src'>根拠：特定技能基準省令第2条第2項、出入国在留管理庁「特定技能外国人受入れに関する運用要領」（令和8年10月）。言語体制について、運用要領は「通訳人を職員として雇い入れることまでは必要なく、必要なときに委託するなどして通訳人を確保できるものであれば足りる」としています。</p>" +
+        "<p>令和7年4月以降の主な変更（すでに施行）：定期届出は年1回（対象年の4月1日～翌年3月31日分を、翌年4月1日～5月31日に提出）。支援計画は、事業所と住居地の市区町村の共生施策を踏まえて作成します。定期面談は、条件付きでオンラインも認められます。</p>" +
+        "<p>令和9年4月1日施行予定：支援責任者・支援担当者は事業所ごとに常勤の役員または職員から選任、支援担当者数は1号特定技能外国人の数を50で割った数を超えること、支援責任者の養成講習（当分の間は経過措置）など。いまの判定には使っていません。</p>" +
+      "</section>" +
+      "<section class='card'><h2>⑤ 次の一歩</h2>" +
+        "<p>まずは無料相談、または届出・書類の<strong>総点検パック</strong>から始めるのがおすすめです。自社支援への切替は、要件の確認と段取りが整ってから進めてください。</p>" +
+        "<ul class='plain'>" +
+          "<li>特定技能 届出・書類の総点検パック：3万円（税別）</li>" +
+          "<li>自社支援への切替サポート：1社8万円（税別）、2人目から1人1万円追加</li>" +
+          "<li>スポット支援代行（定期面談・生活オリエンテーションなど）：1回2万円（税別）から</li>" +
+        "</ul>" +
+        "<p class='src'>点検、段取り・サポート、支援業務の代行までのご案内です。行政書士の独占業務に当たる書類作成や申請の代行は行いません。</p>" +
+      "</section>" +
+      "<section class='cta-box' id=\"booking\">" +
+        "<h2>自社支援の話を聞いてみたい方へ</h2>" +
+        "<p>いまの委託内容と、切替の可否を一緒に確認できます。所要の目安は30分程度です。下のボタンからご予約ください。</p>" +
+        "<div class='btn-row'>" +
+          "<a class='btn btn-primary span2' href='" + esc(book) + "' rel='noopener noreferrer'>" + esc(bookingLabel) + "</a>" +
+          "<a class='btn btn-line' href='" + esc(LINE_URL) + "' rel='noopener noreferrer'>公式LINE</a>" +
+          "<a class='btn btn-ig' href='" + esc(INSTAGRAM_URL) + "' rel='noopener noreferrer'>Instagram</a>" +
+        "</div>" +
+        "<p class='src no-print'>予約はGoogleカレンダーの予約ページに進みます。連絡先のボタンは公式LINEとInstagramです。</p>" +
+      "</section>" +
+      renderCollectBox() +
+      "<p class='disclaimer'>この結果は概算であり、要件の最終判断は個別確認が必要です。診断の計算はブラウザ内だけで行っています。結果と連絡先を送る場合は、同意のうえ上の欄から送信します。分野ごとの追加の基準や、登録支援機関との契約内容までは見ていません。株式会社エクアクリード</p>" +
+      "<p class='no-print' style='display:flex;gap:10px;flex-wrap:wrap'>" +
+        "<button type='button' class='btn btn-ghost' onclick='window.print()'>結果を印刷する</button>" +
+        "<button type='button' class='btn btn-ghost' onclick='document.getElementById(\"diag-form\").scrollIntoView()'>条件を変えて再計算</button>" +
+      "</p>"
+    );
+  }
+
+  function applyScreenshotPreset(form, kind) {
+    var set = function (name, value) {
+      var els = form.elements[name];
+      if (!els) return;
+      if (els.length && els[0].type === "radio") {
+        for (var i = 0; i < els.length; i++) { if (els[i].value === value) els[i].checked = true; }
+      } else {
+        els.value = value;
+      }
+    };
+    set("people", "5");
+    set("sites", "1");
+    set("monthlyFee", "25000");
+    set("hourlyWage", "2000");
+    if (kind === "pass") {
+      set("expAccept", "yes");
+      set("expConsult", "yes");
+      set("canLead", "yes");
+      set("canStaff", "yes");
+      set("langSys", "inhouse");
+      set("canMeeting", "yes");
+    } else if (kind === "fail") {
+      set("expAccept", "no");
+      set("expConsult", "no");
+      set("canLead", "no");
+      set("canStaff", "no");
+      set("langSys", "no");
+      set("canMeeting", "no");
+    }
+  }
+
+  function runForm(form) {
+    var err = document.getElementById("form-error");
+    var box = document.getElementById("results");
+    var input = readForm(form);
+    if (!validate(input)) {
+      err.style.display = "block";
+      box.classList.remove("show");
+      err.scrollIntoView();
+      return;
+    }
+    err.style.display = "none";
+    var result = diagnose(input);
+    lastDiagInput = input;
+    lastResult = result;
+    box.innerHTML = render(result);
+    box.classList.add("show");
+    bindCollectForm();
+    if (!document.body.classList.contains("screenshot-mode")) {
+      box.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  function bindCollectForm() {
+    var form = document.getElementById("collect-form");
+    if (!form) return;
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      sendCollect(form);
+    });
+  }
+
+  function sendCollect(form) {
+    var status = document.getElementById("collect-status");
+    var btn = document.getElementById("collect-submit");
+    var fd = new FormData(form);
+    var formInput = {
+      startedAt: fd.get("startedAt"),
+      website: fd.get("website"),
+      companyName: fd.get("companyName"),
+      contactName: fd.get("contactName"),
+      email: fd.get("email"),
+      message: fd.get("message"),
+      consent: fd.get("consent") === "yes"
+    };
+    function show(kind, text) {
+      if (!status) return;
+      status.className = kind;
+      status.textContent = text;
+    }
+    if (!collectUrl()) {
+      show("err", "送信先がまだ設定されていないため、送れません。公式LINEからご連絡ください。");
+      return;
+    }
+    if (isHoneypotFilled(formInput)) {
+      show("ok", "送信しました。担当者からご連絡します。");
+      if (btn) btn.disabled = true;
+      return;
+    }
+    if (tooFast(formInput.startedAt, Date.now(), 4000)) {
+      show("err", "送信まで少し待ってから、もう一度お試しください。");
+      return;
+    }
+    var errors = validateCollect(formInput);
+    if (errors.length) {
+      show("err", errors.join(" "));
+      return;
+    }
+    if (!lastDiagInput || !lastResult) {
+      show("err", "先に診断を実行してください。");
+      return;
+    }
+    var payload = buildCollectPayload(formInput, lastDiagInput, lastResult, Date.now());
+    if (btn) btn.disabled = true;
+    show("", "送信しています…");
+    fetch(collectUrl(), {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      if (res.type === "opaque" || res.ok) {
+        show("ok", "送信しました。担当者からご連絡します。");
+        return;
+      }
+      show("err", "送信できませんでした。公式LINEからご連絡ください。");
+      if (btn) btn.disabled = false;
+    }).catch(function () {
+      show("err", "送信できませんでした。公式LINEからご連絡ください。");
+      if (btn) btn.disabled = false;
+    });
+  }
+
+  document.getElementById("diag-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    runForm(e.target);
+  });
+
+  (function bootScreenshot() {
+    var q = new URLSearchParams(location.search).get("screenshot");
+    if (!q) return;
+    document.body.classList.add("screenshot-mode");
+    if (q === "form") return;
+    if (q === "pass" || q === "fail") document.body.classList.add("screenshot-results");
+    if (q === "send") {
+      document.body.classList.add("screenshot-results");
+      document.body.classList.add("screenshot-send");
+    }
+    var form = document.getElementById("diag-form");
+    applyScreenshotPreset(form, q === "send" ? "pass" : q);
+    runForm(form);
+    if (window.scrollTo) window.scrollTo(0, 0);
+  })();
+  </script>
+</body>
+</html>
