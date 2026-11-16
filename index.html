@@ -197,14 +197,25 @@
       margin: 0 0 20px;
       border: 1px solid var(--line);
     }
-    .verdict.consider { background: var(--wash); border-color: var(--green-2); }
-    .verdict.review { background: var(--warn-bg); border-color: #e6d48a; }
-    .verdict.stay { background: var(--stay-bg); border-color: #c5d3d8; }
+    .verdict.ready { background: var(--wash); border-color: var(--green-2); }
+    .verdict.prepare { background: var(--wash); border-color: var(--mint); }
+    .verdict.adjust { background: var(--warn-bg); border-color: #e6d48a; }
     .verdict .kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; margin: 0 0 4px; }
-    .verdict.consider .kicker { color: var(--green); }
-    .verdict.review .kicker { color: var(--warn); }
-    .verdict.stay .kicker { color: var(--stay); }
+    .verdict.ready .kicker, .verdict.prepare .kicker { color: var(--green); }
+    .verdict.adjust .kicker { color: var(--warn); }
     .verdict h2 { font-size: 24px; margin: 0 0 10px; }
+    .save-hero { background: #fff; border: 2px solid var(--green-2); border-radius: 12px; padding: 14px 16px; margin: 4px 0 12px; }
+    .save-hero .lbl { font-size: 13px; font-weight: 700; color: var(--green); margin: 0; }
+    .save-hero .big { font-size: 36px; font-weight: 800; color: var(--green); margin: 2px 0; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .save-hero .sub { font-size: 12px; color: var(--muted); margin: 0; }
+    @media (min-width: 640px) { .save-hero .big { font-size: 44px; } }
+    .steps { list-style: none; padding: 0; margin: 0; }
+    .steps li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .steps li:last-child { border-bottom: 0; }
+    .steps .how { margin: 4px 0 0; }
+    .steps .sup { margin: 6px 0 0; font-weight: 700; color: var(--green); }
+    .cta-box.strong { border: 2px solid var(--green-2); }
+    .cta-box .lead-big { font-size: 18px; font-weight: 800; margin: 0 0 8px; }
     .metrics { display: grid; grid-template-columns: 1fr; gap: 12px; }
     @media (min-width: 640px) {
       .metrics { grid-template-columns: 1fr 1fr 1fr; }
@@ -592,13 +603,17 @@
         title: "過去2年間の受入れ・管理実績、または生活相談の経験",
         note: expPass
           ? "ご回答では、省令にいうイまたはロの実績・経験がありそうです。"
-          : "どちらもない、またはわからない場合でも、「同程度に実施できる」として個別に認められる道（ハ）があります。この診断では判断できません。"
+          : "どちらもない、またはわからない場合でも、「同程度に実施できる」として個別に認められる道（ハ）があります。この診断では判断できません。",
+        howTo: "まず、過去2年間に中長期在留者の受入れ・管理の実績があるか、生活相談の業務に携わった役員・職員がいるかを、社内の記録で確かめます。どちらもない場合は、個別に認められる道（ハ）に当てはまるかを確認します。",
+        support: "実績の確かめ方と確認の段取りを、株式会社エクアクリードがサポートします。"
       },
       {
         id: "lead",
         status: reqStatus(input.canLead === "yes", input.canLead === "no"),
         title: "役員または職員からの支援責任者の選任",
-        note: input.canLead === "yes" ? "選任できそう、とのご回答です。" : "自社支援では支援責任者の選任が必要です。"
+        note: input.canLead === "yes" ? "選任できそう、とのご回答です。" : "自社支援では支援責任者の選任が必要です。",
+        howTo: "役員または職員の中から、支援計画の実施をまとめる支援責任者を1名決めます。",
+        support: "役割の整理と選任の段取りを、株式会社エクアクリードがサポートします。"
       },
       {
         id: "staff",
@@ -606,7 +621,9 @@
         title: "事業所ごとに、指揮命令しない支援担当者を1名以上",
         note: input.canStaff === "yes"
           ? "事業所ごとに、中立な立場の担当者を置けそう、とのご回答です。"
-          : "直属の上司など指揮命令権のある人は、支援担当者になれません。"
+          : "直属の上司など指揮命令権のある人は、支援担当者になれません。",
+        howTo: "事業所ごとに、外国人の方に指揮命令をしない立場の役員または職員（たとえば別部署や総務の担当者）を1名以上、支援担当者として決めます。",
+        support: "誰を担当にするかの整理と配置の段取りを、株式会社エクアクリードがサポートします。"
       },
       {
         id: "lang",
@@ -616,13 +633,17 @@
           ? "社内で対応できる、とのご回答です。"
           : input.langSys === "interpreter"
             ? "必要なときに通訳を確保できる、とのご回答です。運用要領では、職員として雇うことまでは求められていません。"
-            : "事前ガイダンス、生活オリエンテーション、相談、定期面談などは、理解できる言語での実施が求められます。"
+            : "事前ガイダンス、生活オリエンテーション、相談、定期面談などは、理解できる言語での実施が求められます。",
+        howTo: "通訳を職員として雇う必要はありません。必要なときに外部の通訳を確保できるようにしておけば足ります（運用要領）。まず、どの支援の場面で通訳が必要かを洗い出します。",
+        support: "言語対応の体制づくりの段取りを、株式会社エクアクリードがサポートします。"
       },
       {
         id: "meeting",
         status: reqStatus(input.canMeeting === "yes", input.canMeeting === "no"),
         title: "本人と上司の双方との定期面談（3か月に1回以上）",
-        note: input.canMeeting === "yes" ? "実施できそう、とのご回答です。" : "自社支援では、支援責任者または支援担当者が定期面談を行う体制が必要です。"
+        note: input.canMeeting === "yes" ? "実施できそう、とのご回答です。" : "自社支援では、支援責任者または支援担当者が定期面談を行う体制が必要です。",
+        howTo: "3か月に1回以上、本人と上司のそれぞれと面談する予定を、年間の予定にあらかじめ組み込みます。条件付きでオンラインでの面談も認められています。",
+        support: "面談の進め方と年間予定の段取りを、株式会社エクアクリードがサポートします。"
       }
     ];
     return items;
@@ -660,31 +681,37 @@
     var failCount = requirements.filter(function (r) { return r.status === "fail"; }).length;
     var unknownCount = requirements.filter(function (r) { return r.status === "unknown"; }).length;
 
-    var verdict = "review";
-    var verdictLabel = "要件の確認が必要";
+    var gapCount = failCount + unknownCount;
+    var costDown = selfTotal < currentAnnual;
+    var hoursHeavy = annualHours > 1600;
+    var verdict;
+    var verdictLabel;
     var reasons = [];
 
-    if (failCount > 0) {
-      verdict = "stay";
-      verdictLabel = "今は委託継続が安心";
-      reasons.push("いまの回答では、自社で支援計画を実施するための体制がまだ足りない項目があります。");
-    } else if (unknownCount > 0) {
-      verdict = "review";
-      verdictLabel = "要件の確認が必要";
-      reasons.push("実績・選任・言語・面談のいずれかが「わからない」または、実績の個別判断（ハ）の確認が残っています。");
-    } else if (selfTotal < currentAnnual && annualHours <= 1600) {
-      verdict = "consider";
-      verdictLabel = "自社支援を検討できそう";
-      reasons.push("ご回答の範囲では、自社支援の要件を満たせる見込みがあり、費用の目安もいまの委託費を下回っています。");
+    if (gapCount > 0) {
+      verdict = "prepare";
+      verdictLabel = "体制を整えれば自社支援に切り替えられます";
+      reasons.push("自社支援に切り替えるための体制で、まだ整っていない、または確認が必要な項目が" + gapCount + "つあります。下の「切替までの手順」に沿って整えれば、自社支援への切替をめざせます。");
+      if (costDown) {
+        reasons.push("費用の目安は、いまの委託費を下回っています。体制が整えば、この差額を年間のコスト削減につなげられる見込みです。");
+      }
+    } else if (costDown && !hoursHeavy) {
+      verdict = "ready";
+      verdictLabel = "自社支援に切り替えられます";
+      reasons.push("ご回答の範囲では、自社支援の要件を満たす見込みがあり、費用の目安もいまの委託費を下回っています。");
+      reasons.push("切替の段取りを進めれば、年間の支援コストを下げられる見込みです。");
     } else {
-      verdict = "stay";
-      verdictLabel = "今は委託継続が安心";
-      if (selfTotal >= currentAnnual) {
-        reasons.push("要件は整いそうですが、今回の目安では自社支援の費用がいまの委託費を下回りません。");
-      }
-      if (annualHours > 1600) {
-        reasons.push("年間の支援時間がおおよそ1人分の勤務に近づく目安です。担当の空き時間と合わせて確認してください。");
-      }
+      verdict = "adjust";
+      verdictLabel = "前提を見直して自社支援をめざしましょう";
+      reasons.push("ご回答の範囲では、自社支援の要件を満たす見込みがあります。");
+    }
+
+    if (!costDown) {
+      reasons.push("今回の入力では、自社支援の費用目安がいまの委託費を上回っています。この目安は、ご入力の時間と時給による仮の計算です。1人あたりの年間時間や時給の前提を、実際の運用に合わせて見直すと結果が変わることがあります。");
+      reasons.push("面談や届出の段取りを決めて効率よく回す方法や、支援業務の一部を代行に任せる方法を組み合わせると、社内の負担を下げられる可能性があります。");
+    }
+    if (hoursHeavy) {
+      reasons.push("年間の支援時間がおおよそ1人分の勤務に近づく目安です。担当を複数で分ける、支援業務の一部を代行に任せるなど、回し方を一緒に検討できます。");
     }
 
     if (input.scope === "self") {
@@ -731,6 +758,8 @@
       requirements: requirements,
       failCount: failCount,
       unknownCount: unknownCount,
+      gapCount: gapCount,
+      costDown: costDown,
       verdict: verdict,
       verdictLabel: verdictLabel,
       reasons: reasons,
@@ -938,18 +967,35 @@
     var reasonHtml = "<ul class='plain'>" + result.reasons.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>";
     var book = bookingUrl();
     var bookingIsLine = book === LINE_URL;
-    var bookingLabel = bookingIsLine ? "自社支援の話を聞いてみる（公式LINE）" : "自社支援の話を聞いてみる（予約）";
+    var bookingLabel = bookingIsLine ? "無料相談を申し込む（公式LINE）" : "無料相談を予約する（30分程度）";
+    var saveHero = result.savings > 0
+      ? "<div class='save-hero'><p class='lbl'>自社支援に切り替えると、年間で浮く金額の目安</p><p class='big'>約 " + yen(result.savings) + "</p><p class='sub'>いまの年間コスト " + yen(result.currentAnnual) + " － 自社支援の費用目安 " + yen(result.selfTotal) + "（ご入力の値による概算）</p></div>"
+      : "";
+    var gaps = result.requirements.filter(function (r) { return r.status !== "pass"; });
+    var stepsHtml = gaps.length
+      ? "<section class='card'><h2>切替までの手順（整えたい項目）</h2>" +
+          "<p>次の項目を整えれば、自社支援に切り替えられる体制に近づきます。いまは体制が整っていなくても、段取りから株式会社エクアクリードがサポートします。</p>" +
+          "<ol class='steps'>" + gaps.map(function (r) {
+            return "<li><span class='stamp " + r.status + "'>" + stampLabel(r.status) + "</span> <strong>" + esc(r.title) + "</strong>" +
+              "<p class='how'>こうすれば整います：" + esc(r.howTo) + "</p>" +
+              "<p class='sup'>" + esc(r.support) + "</p></li>";
+          }).join("") + "</ol>" +
+        "</section>"
+      : "";
 
     return (
       "<article class='verdict " + vClass + "'>" +
         "<p class='kicker'>診断結果（目安）</p>" +
         "<h2>" + esc(result.verdictLabel) + "</h2>" +
+        saveHero +
         reasonHtml +
+        "<p class='no-print' style='margin:14px 0 0'><a class='btn btn-primary' href='#booking'>切替の進め方を無料で相談する</a></p>" +
       "</article>" +
+      stepsHtml +
       "<div class='metrics'>" +
         "<div class='metric'><div class='lbl'>① いまの年間コスト</div><div class='val'>" + yen(result.currentAnnual) + "</div><p class='sub'>月額 " + yen(result.monthlyFee) + " × " + result.people + "人 × 12か月" + (result.initialInAnnual ? " ＋初期費用" : "") + "</p></div>" +
         "<div class='metric'><div class='lbl'>② 自社支援の費用目安</div><div class='val'>" + yen(result.selfTotal) + "</div><p class='sub'>時間 " + hours(result.annualHours) + " × 時給 " + yen(result.hourlyWage) + (result.otherCost ? " ＋その他" : "") + "</p></div>" +
-        "<div class='metric accent'><div class='lbl'>差（目安）</div><div class='val'>" + yen(result.savings >= 0 ? result.savings : -result.savings) + "</div><p class='sub'>" + (result.savings >= 0 ? "いまの委託より少ない" : "いまの委託より多い") + "<br>週あたり約 " + hours(result.weeklyHours) + "</p></div>" +
+        "<div class='metric accent'><div class='lbl'>" + (result.savings > 0 ? "年間で浮く金額（目安）" : "差（目安）") + "</div><div class='val'>" + yen(result.savings >= 0 ? result.savings : -result.savings) + "</div><p class='sub'>" + (result.savings >= 0 ? "いまの委託より少ない" : "いまの委託より多い") + "<br>週あたり約 " + hours(result.weeklyHours) + "</p></div>" +
       "</div>" +
       "<section class='card'><h2>③ 比較表</h2>" +
         "<table class='cmp'><thead><tr><th>項目</th><th>いまの委託</th><th>自社支援の目安</th></tr></thead><tbody>" +
@@ -969,23 +1015,21 @@
         "<p>令和7年4月以降の主な変更（すでに施行）：定期届出は年1回（対象年の4月1日～翌年3月31日分を、翌年4月1日～5月31日に提出）。支援計画は、事業所と住居地の市区町村の共生施策を踏まえて作成します。定期面談は、条件付きでオンラインも認められます。</p>" +
         "<p>令和9年4月1日施行予定：支援責任者・支援担当者は事業所ごとに常勤の役員または職員から選任、支援担当者数は1号特定技能外国人の数を50で割った数を超えること、支援責任者の養成講習（当分の間は経過措置）など。いまの判定には使っていません。</p>" +
       "</section>" +
-      "<section class='card'><h2>⑤ 次の一歩</h2>" +
-        "<p>まずは無料相談、または届出・書類の<strong>総点検パック</strong>から始めるのがおすすめです。自社支援への切替は、要件の確認と段取りが整ってから進めてください。</p>" +
+      "<section class='cta-box strong' id=\"booking\">" +
+        "<h2>⑤ 自社支援への切替は、株式会社エクアクリードにご相談ください</h2>" +
+        "<p class='lead-big'>切替の段取りから体制づくりまで、株式会社エクアクリードがサポートします。</p>" +
+        "<p>いまは体制が整っていなくても大丈夫です。今回の診断結果をもとに、何から始めればよいかを無料相談で一緒に確認します。所要の目安は30分程度です。下のボタンからご予約ください。</p>" +
         "<ul class='plain'>" +
           "<li>特定技能 届出・書類の総点検パック：3万円（税別）</li>" +
           "<li>自社支援への切替サポート：1社8万円（税別）、2人目から1人1万円追加</li>" +
           "<li>スポット支援代行（定期面談・生活オリエンテーションなど）：1回2万円（税別）から</li>" +
         "</ul>" +
-        "<p class='src'>点検、段取り・サポート、支援業務の代行までのご案内です。行政書士の独占業務に当たる書類作成や申請の代行は行いません。</p>" +
-      "</section>" +
-      "<section class='cta-box' id=\"booking\">" +
-        "<h2>自社支援の話を聞いてみたい方へ</h2>" +
-        "<p>いまの委託内容と、切替の可否を一緒に確認できます。所要の目安は30分程度です。下のボタンからご予約ください。</p>" +
         "<div class='btn-row'>" +
           "<a class='btn btn-primary span2' href='" + esc(book) + "' rel='noopener noreferrer'>" + esc(bookingLabel) + "</a>" +
           "<a class='btn btn-line' href='" + esc(LINE_URL) + "' rel='noopener noreferrer'>公式LINE</a>" +
           "<a class='btn btn-ig' href='" + esc(INSTAGRAM_URL) + "' rel='noopener noreferrer'>Instagram</a>" +
         "</div>" +
+        "<p class='src'>点検、段取り・サポート、支援業務の代行までのご案内です。行政書士の独占業務に当たる書類の作成や申請の手続きは行いません。</p>" +
         "<p class='src no-print'>予約はGoogleカレンダーの予約ページに進みます。連絡先のボタンは公式LINEとInstagramです。</p>" +
       "</section>" +
       renderCollectBox() +
