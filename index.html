@@ -572,7 +572,7 @@
   var BOOKING_URL = "https://calendar.google.com/appointments/schedules/AcZssZ149mwnPuYoTvcSm0ElB1hPXJ0OCavC5LjCwldmn9G_XsJGDKeOMsFFhB8siRCN4ces_oqRJdcH";
   var LINE_URL = "https://lin.ee/vRRtEW9";
   var INSTAGRAM_URL = "https://www.instagram.com/equa_creed/";
-  var COLLECT_URL = ""; // Google Apps Script Webアプリの /exec URL。空のときは送信欄を出さない
+  var COLLECT_URL = "https://script.google.com/macros/s/AKfycbyzV4qYfSFRspmcAxV-63DntRJC_L0wRwNfG4-ZGgmHB1EiM0Kt8rEV0XJKjicyb0SA/exec"; // Google Apps Script Webアプリの /exec URL。空のときは送信欄を出さない
   var PRIVACY_URL = "privacy.html";
   var PAGE_VERSION = "v2";
 
@@ -835,10 +835,10 @@
   }
   function esc(s) {
     return String(s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
+      .replace(/&/g, "&")
+      .replace(/</g, "<")
+      .replace(/>/g, ">")
+      .replace(/"/g, """);
   }
 
   function stampLabel(st) {
